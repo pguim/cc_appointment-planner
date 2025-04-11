@@ -54,7 +54,7 @@ export const ContactsPage = (props) => {
 
   const contactExists = (name) => {
     let exists = false
-    props.contacts.forEach(contact => {
+    props.items.forEach(contact => {
       if (contact.name === name) {
         exists = true
       }
@@ -71,7 +71,7 @@ export const ContactsPage = (props) => {
       <hr />
       <section>
         <h2>Contacts</h2>
-        <TileList contacts={props.contacts} />
+        <TileList items={props.items} />
       </section>
     </div>
   );
