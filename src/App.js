@@ -17,6 +17,10 @@ function App () {
   contacts and appointments
   */
 
+  const getContactByName = (contactName) => {
+    return contacts.filter(contact => { return contact.name === contactName })
+  }
+
   const validateContact = (contact) => {
 
     if (typeof contact !== 'object') throw new Error('\'contact\' should be an object')
@@ -54,27 +58,19 @@ function App () {
 
   }
 
-  const addAppointment = (name, contact, date, time) => {
+  const addAppointment = (title, contactName, date, time) => {
 
     // Check input data types
-    if (typeof name !== 'string') throw new Error('\'name\' should be a string')
+    if (typeof title !== 'string') throw new Error('\'title\' should be a string')
+    if (typeof contactName !== 'string') throw new Error('\'contactName\' should be a string')
     if (typeof date !== 'string') throw new Error('\'date\' should be a string')
     if (typeof time !== 'string') throw new Error('\'time\' should be a string')
 
-    try {
-      validateContact(contact)
-    } catch (e) {
-      throw e
-    }
-
     // Check input formats
-    if (name.length < 3) throw new Error('\'name\' should be at least three characters long')
-    /*
-      ToDo:
-        Validate date and time
-    */
+    if (title.length < 3) throw new Error('\'title\' should be at least three characters long')
+    if (contactName.length < 3) throw new Error('\'contactName\' should be at least three characters long')
 
-    const appointment = { name, contact, date, time }
+    const appointment = { title, contactName, date, time }
 
     // Create new contact
     setAppointments(prev => [...prev, appointment])
@@ -85,7 +81,7 @@ function App () {
     <Route path="/" element={<Root />}>
       <Route index element={<Navigate to={ROUTES.CONTACTS} replace />} />
       <Route path={ROUTES.CONTACTS} element={<ContactsPage items={contacts} addContact={addContact} />} />
-      <Route path={ROUTES.APPOINTMENTS} element={<AppointmentsPage items={appointments} submit={addAppointment} />} />
+      <Route path={ROUTES.APPOINTMENTS} element={<AppointmentsPage contacts={contacts} appointments={appointments} submit={addAppointment} />} />
     </Route>
   ));
 
